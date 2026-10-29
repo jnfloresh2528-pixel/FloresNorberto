@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#6C3483">
+    <title>{% block title %}ERP Django{% endblock %} · UTEC Celaya</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Fable 5 — Design System: Shinobu & Mitsuri -->
+    <style>
+        /* =========================================================
+           TEMA CLARO  ·  🦋 SHINOBU  ·  Ciruela Profunda
+           ========================================================= */
+        :root, [data-theme="light"] {
+            --clr-bg:
+                radial-gradient(ellipse 85% 65% at 15% -10%,
+                    rgba(190,140,215,0.45) 0%,
+                    rgba(160,110,185,0.18) 30%,
+                    transparent 65%),
+                radial-gradient(ellipse 75% 60% at 95% 115%,
+                    rgba(170,120,195,0.32) 0%,
+                    rgba(140,90,165,0.08) 40%,
+                    transparent 65%),
+                repeating-linear-gradient(90deg,
+                    rgba(190,140,215,0.03) 0px,
+                    rgba(190,140,215,0.03) 1px,
+                    rgba(30,10,45,0.025)   1px,
+                    rgba(30,10,45,0.025)   3px),
+                linear-gradient(115deg,
+                    transparent 0%,
+                    rgba(190,140,215,0.30) 7%,
+                    rgba(190,140,215,0.08) 15%,
+                    rgba(30,8,50,0.20)    28%,
+                    rgba(30,8,50,0.30)    36%,
+                    rgba(190,140,215,0.26) 52%,
+                    rgba(160,110,185,0.06) 62%,
+                    rgba(30,8,50,0.20)    78%,
+                    rgba(190,140,215,0.20) 90%,
+                    transparent 100%),
+                linear-gradient(65deg,
+                    transparent 0%,
+                    rgba(190,140,215,0.16) 20%,
+                    rgba(30,8,50,0.12)    42%,
+                    rgba(190,140,215,0.20) 58%,
+                    rgba(30,8,50,0.06)    75%,
+                    transparent 92%),
+                linear-gradient(135deg, #B07CC6 0%, #8E44AD 45%, #5B2C6F 100%);
+
+            --clr-navbar   : linear-gradient(135deg, #7D3C98 0%, #6C3483 50%, #512E5F 100%);
+            --clr-royal    : #A569BD;
+            --clr-sky      : #D2B4DE;
+            --clr-ice      : #F4ECF7;
+            --clr-gold     : #212121;
+            --clr-amber    : #424242;
+            --clr-cream    : #FDFEFE;
+            --clr-surface  : #FFFFFF;
+            --clr-text     : #2C3E50;
+            --clr-muted    : #6C3483;
+            --clr-border   : #D2B4DE;
+            --clr-danger   : #E74C3C;
+            --clr-ok       : #27AE60;
+            --clr-hover    : rgba(142, 68, 173, .12);
+            --clr-ring     : rgba(142, 68, 173, .3);
+            --shadow-sm    : 0 4px 10px rgba(81, 46, 95, .1);
+            --shadow-md    : 0 8px 20px rgba(81, 46, 95, .2);
+
+            --nav-btn-bg   : #1A1A1A;
+            --nav-btn-text : #FFFFFF;
+            --nav-btn-hover: #333333;
+
+            --dash-icon-bg   : rgba(26, 26, 26, 0.1);
+            --dash-icon-ring : rgba(26, 26, 26, 0.25);
+            --dash-icon-bg-h : rgba(26, 26, 26, 0.2);
+        }
+
+        /* =========================================================
+           TEMA OSCURO  ·  🎀 MITSURI  ·  Magenta Chrome
+           ========================================================= */
+        [data-theme="dark"] {
+            --clr-bg:
+                radial-gradient(ellipse 85% 65% at 15% -10%,
+                    rgba(255,180,210,0.55) 0%,
+                    rgba(245,140,185,0.22) 30%,
+                    transparent 65%),
+                radial-gradient(ellipse 75% 60% at 95% 115%,
+                    rgba(240,140,180,0.38) 0%,
+                    rgba(220,120,165,0.10) 40%,
+                    transparent 65%),
+                repeating-linear-gradient(90deg,
+                    rgba(255,180,210,0.04) 0px,
+                    rgba(255,180,210,0.04) 1px,
+                    rgba(120,5,55,0.03)    1px,
+                    rgba(120,5,55,0.03)    3px),
+                linear-gradient(115deg,
+                    transparent 0%,
+                    rgba(255,180,210,0.32) 7%,
+                    rgba(255,180,210,0.10) 15%,
+                    rgba(120,5,55,0.18)   28%,
+                    rgba(120,5,55,0.26)   36%,
+                    rgba(255,180,210,0.28) 52%,
+                    rgba(245,140,185,0.08) 62%,
+                    rgba(120,5,55,0.18)   78%,
+                    rgba(255,180,210,0.20) 90%,
+                    transparent 100%),
+                linear-gradient(65deg,
+                    transparent 0%,
+                    rgba(255,180,210,0.18) 20%,
+                    rgba(120,5,55,0.10)   42%,
+                    rgba(255,180,210,0.20) 58%,
+                    rgba(120,5,55,0.06)   75%,
+                    transparent 92%),
+                linear-gradient(135deg, #F8A5C2 0%, #EC5F9B 50%, #C2185B 100%);
+
+            --clr-navbar   : linear-gradient(135deg, #E91E63 0%, #C2185B 50%, #AD1457 100%);
+            --clr-royal    : #E91E63;
+            --clr-sky      : #F48FB1;
+            --clr-ice      : #FFF0F5;
+            --clr-gold     : #8BC34A;
+            --clr-amber    : #AED581;
+            --clr-cream    : #FFF9C4;
+            --clr-surface  : #FFFFFF;
+            --clr-text     : #4A1520;
+            --clr-muted    : #8E5A66;
+            --clr-border   : #F8BBD0;
+            --clr-danger   : #D32F2F;
+            --clr-ok       : #388E3C;
+            --clr-hover    : rgba(233, 30, 99, .1);
+            --clr-ring     : rgba(233, 30, 99, .3);
+            --shadow-sm    : 0 4px 10px rgba(173, 20, 87, .1);
+            --shadow-md    : 0 8px 20px rgba(173, 20, 87, .2);
+
+            --nav-btn-bg   : #8BC34A;
+            --nav-btn-text : #1A1A1A;
+            --nav-btn-hover: #7CB342;
+
+            --dash-icon-bg   : rgba(139, 195, 74, 0.15);
+            --dash-icon-ring : rgba(139, 195, 74, 0.35);
+            --dash-icon-bg-h : rgba(139, 195, 74, 0.3);
+        }
+
+        /* BASE */
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-size: 15px;
+            background: var(--clr-bg);
+            background-attachment: fixed;
+            color: var(--clr-text);
+            line-height: 1.6;
+            transition: background .4s ease, color .4s ease;
+            margin: 0;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* =========================================================
+           DECORACIÓN ANIMADA
+           ========================================================= */
+        .theme-decor {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 5;
+            display: none;
+        }
+        [data-theme="light"] .theme-decor--butterflies { display: block; }
+        [data-theme="dark"]  .theme-decor--petals      { display: block; }
+
+        .decor-particle {
+            position: absolute;
+            top: -10vh;
+            line-height: 1;
+            will-change: transform;
+            animation-name: decor-fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
+        }
+
+        @keyframes decor-fall {
+            from { transform: translateY(0); }
+            to   { transform: translateY(130vh); }
+        }
+
+        .decor-particle > span {
+            display: inline-block;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+        }
+
+        .particle-butterfly > span { animation-name: decor-butterfly; }
+        @keyframes decor-butterfly {
+            0%   { transform: translateX(-28px) rotate(-12deg) scaleX( 1); }
+            25%  { transform: translateX( 18px) rotate(  8deg) scaleX(-1); }
+            50%  { transform: translateX(-16px) rotate( -8deg) scaleX( 1); }
+            75%  { transform: translateX( 26px) rotate( 12deg) scaleX(-1); }
+            100% { transform: translateX(-28px) rotate(-12deg) scaleX( 1); }
+        }
+
+        .particle-wisteria > span { animation-name: decor-wisteria; }
+        @keyframes decor-wisteria {
+            0%   { transform: translateX(-22px) rotate(-6deg); }
+            50%  { transform: translateX( 22px) rotate( 6deg); }
+            100% { transform: translateX(-22px) rotate(-6deg); }
+        }
+
+        .particle-petal > span { animation-name: decor-petal; }
+        @keyframes decor-petal {
+            0%   { transform: translateX(-38px) rotate(  0deg); }
+            25%  { transform: translateX( 22px) rotate( 90deg); }
+            50%  { transform: translateX(-20px) rotate(180deg); }
+            75%  { transform: translateX( 36px) rotate(270deg); }
+            100% { transform: translateX(-38px) rotate(360deg); }
+        }
+
+        .particle-heart > span { animation-name: decor-heart; }
+        @keyframes decor-heart {
+            0%   { transform: translateX(-16px) scale(1)    rotate(-8deg); }
+            25%  { transform: translateX( 10px) scale(1.12) rotate( 5deg); }
+            50%  { transform: translateX(-10px) scale(1)    rotate(-5deg); }
+            75%  { transform: translateX( 16px) scale(1.12) rotate( 8deg); }
+            100% { transform: translateX(-16px) scale(1)    rotate(-8deg); }
+        }
+
+        /* NAVBAR */
+        .erp-navbar {
+            background: var(--clr-navbar);
+            border-bottom: 3px solid var(--clr-gold);
+            padding: .65rem 1.5rem;
+            display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+            box-shadow: var(--shadow-md);
+            transition: background .4s ease, border-color .4s ease;
+            position: relative;
+            z-index: 20;
+        }
+        .erp-brand {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.3rem; font-weight: 700;
+            color: #FFF !important;
+            text-decoration: none; letter-spacing: .04em;
+            text-shadow: 0 2px 4px rgba(0,0,0,.3);
+        }
+        .erp-brand span { color: rgba(255,255,255,.8); font-weight: 300; font-size: .85em; }
+        
+        .erp-nav-links { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+        
+        .erp-nav-link {
+            background: var(--nav-btn-bg);
+            color: var(--nav-btn-text) !important;
+            font-size: .88rem; font-weight: 600;
+            padding: .4rem .8rem; border-radius: 8px;
+            text-decoration: none;
+            transition: background .2s, color .2s, transform .2s, box-shadow .2s;
+            display: inline-flex; align-items: center; gap: .35rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        
+        .erp-nav-link:hover, .erp-nav-link.active {
+            background: var(--nav-btn-hover);
+            color: var(--nav-btn-text) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+        }
+
+        .erp-nav-link::before { display: inline-block; font-size: 1.1em; }
+        a[href*="productos"]::before { content: '📦'; }
+        a[href*="clientes"]::before  { content: '👤'; }
+        a[href*="proveedores"]::before { content: '🚚'; }
+        a[href*="ventas"]::before    { content: '🛒'; }
+        a[href*="reportes"]::before  { content: '📊'; }
+        a[href*="admin"]::before     { content: '⚙️'; }
+        a[href*="login"]::before, a[href*="logout"]::before { content: '🔐'; }
+
+        .theme-toggle {
+            background: #FFF; color: var(--clr-navy); border: none;
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.2rem; line-height: 1;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,.2);
+            transition: transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow .3s;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 6px 15px rgba(0,0,0,.3);
+        }
+
+        .erp-main { padding: 2rem 0; min-height: calc(100vh - 110px); position: relative; z-index: 2; }
+
+        .erp-main a.card,
+        .erp-main a.text-decoration-none,
+        .erp-main .card.text-center {
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--clr-surface) !important;
+            border: 2px solid var(--clr-border) !important;
+            border-radius: 16px !important;
+            padding: 2rem 1.5rem !important;
+            text-decoration: none !important;
+            box-shadow: var(--shadow-sm) !important;
+            transition: all .3s ease !important;
+            height: 100%;
+        }
+
+        .erp-main a.card:hover,
+        .erp-main a.text-decoration-none:hover,
+        .erp-main .card.text-center:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md) !important;
+            border-color: var(--dash-icon-ring) !important;
+        }
+
+        .erp-main a.card > div:first-child,
+        .erp-main a.text-decoration-none > div:first-child,
+        .erp-main .card.text-center > div:first-child {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 72px !important;
+            height: 72px !important;
+            border-radius: 50% !important;
+            background: var(--dash-icon-bg) !important;
+            border: 2px solid var(--dash-icon-ring) !important;
+            margin-bottom: 1rem !important;
+            transition: all .3s ease !important;
+            font-size: 2.2rem !important;
+            line-height: 1 !important;
+        }
+
+        .erp-main a.card:hover > div:first-child,
+        .erp-main a.text-decoration-none:hover > div:first-child,
+        .erp-main .card.text-center:hover > div:first-child {
+            background: var(--dash-icon-bg-h) !important;
+            transform: scale(1.1) !important;
+        }
+
+        .erp-main a.card h5,
+        .erp-main a.text-decoration-none h5,
+        .erp-main .card h5 {
+            color: var(--clr-text) !important;
+            font-weight: 700;
+            margin-bottom: .5rem;
+            font-size: 1.1rem;
+        }
+
+        .erp-main a.card p,
+        .erp-main a.text-decoration-none p,
+        .erp-main .card p {
+            color: var(--clr-muted) !important;
+            font-size: .9rem;
+            margin: 0;
+        }
+
+        .erp-card {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: 16px; 
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem; margin-bottom: 1.5rem;
+            transition: box-shadow .3s, border-color .3s, transform .3s;
+        }
+        .erp-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--clr-royal);
+            transform: translateY(-3px);
+        }
+        .erp-card-header {
+            background: var(--clr-navbar); color: #FFF;
+            border-radius: 14px 14px 0 0;
+            padding: .85rem 1.25rem;
+            border-left: 5px solid var(--clr-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem; letter-spacing: .03em;
+            margin: -1.5rem -1.5rem 1.5rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,.3);
+        }
+
+        .erp-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm);
+        }
+        .erp-table thead th {
+            background: var(--clr-navbar); color: #FFF;
+            font-weight: 600; font-size: .82rem;
+            text-transform: uppercase; letter-spacing: .06em;
+            padding: .85rem 1rem; border-bottom: 3px solid var(--clr-gold);
+        }
+        .erp-table tbody td {
+            background: var(--clr-surface); padding: .75rem 1rem;
+            border-bottom: 1px solid var(--clr-border); font-size: .9rem;
+            color: var(--clr-text);
+        }
+        .erp-table tbody tr:nth-child(even) td { background: var(--clr-ice); }
+        .erp-table tbody tr:hover td { background: var(--clr-hover); }
+        .erp-table tfoot td {
+            background: var(--clr-cream); color: var(--clr-navy);
+            font-weight: 700; border-top: 2px solid var(--clr-gold);
+        }
+
+        .btn-erp-primary {
+            background: var(--clr-navbar); color: #FFF;
+            border: none; border-radius: 8px;
+            padding: .5rem 1.2rem; font-weight: 600; font-size: .88rem;
+            cursor: pointer; text-decoration: none; display: inline-block;
+            transition: filter .2s, box-shadow .2s, transform .1s;
+            box-shadow: 0 2px 5px rgba(0,0,0,.15);
+        }
+        .btn-erp-primary:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 4px 10px var(--clr-ring);
+            transform: translateY(-2px);
+            color: #FFF;
+        }
+        .btn-erp-gold {
+            background: var(--clr-gold); color: var(--clr-surface);
+            border: none; border-radius: 8px;
+            padding: .5rem 1.2rem; font-weight: 700;
+            cursor: pointer; text-decoration: none; display: inline-block;
+            transition: background .2s, box-shadow .2s, transform .1s;
+            box-shadow: 0 2px 5px rgba(0,0,0,.1);
+        }
+        .btn-erp-gold:hover {
+            background: var(--clr-amber);
+            box-shadow: 0 4px 10px var(--clr-ring);
+            transform: translateY(-2px);
+        }
+        .btn-erp-danger {
+            background: var(--clr-danger); color: #FFF; border: none;
+            border-radius: 8px; padding: .5rem 1rem;
+            font-weight: 600; font-size: .85rem;
+            cursor: pointer; text-decoration: none; display: inline-block;
+            transition: background .2s, transform .1s;
+        }
+        .btn-erp-danger:hover { background: #C0392B; transform: translateY(-1px); }
+        .btn-erp-sm { padding: .3rem .7rem; font-size: .8rem; }
+
+        .erp-label {
+            font-size: .83rem; font-weight: 600; color: var(--clr-muted);
+            text-transform: uppercase; letter-spacing: .05em;
+            display: block; margin-bottom: .4rem;
+        }
+        .erp-input {
+            background: var(--clr-surface); border: 1.5px solid var(--clr-border);
+            border-radius: 8px; color: var(--clr-text);
+            padding: .6rem .85rem; width: 100%; font-size: .93rem;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .erp-input:focus {
+            outline: none; border-color: var(--clr-royal);
+            box-shadow: 0 0 0 4px var(--clr-ring);
+        }
+
+        .badge-erp-active {
+            background: rgba(39, 174, 96, .15); color: var(--clr-ok);
+            border: 1px solid currentColor; font-size: .75rem;
+            padding: .25rem .6rem; border-radius: 20px; font-weight: 600;
+        }
+        .badge-erp-inactive {
+            background: rgba(231, 76, 60, .1); color: var(--clr-danger);
+            border: 1px solid currentColor; font-size: .75rem;
+            padding: .25rem .6rem; border-radius: 20px;
+        }
+        .badge-erp-gold {
+            background: var(--clr-cream); color: var(--clr-gold);
+            border: 1px solid var(--clr-gold); font-size: .75rem;
+            padding: .25rem .7rem; border-radius: 20px; font-weight: 700;
+        }
+
+        .erp-alert-danger {
+            background: rgba(231, 76, 60, .08); border: 1px solid rgba(231, 76, 60, .3);
+            border-left: 5px solid var(--clr-danger); border-radius: 8px; padding: 1rem 1.25rem;
+        }
+        .erp-alert-info {
+            background: var(--clr-ice); border: 1px solid var(--clr-border);
+            border-left: 5px solid var(--clr-royal); border-radius: 8px; padding: 1rem 1.25rem;
+        }
+        .erp-alert-success {
+            background: rgba(39, 174, 96, .08); border: 1px solid rgba(39, 174, 96, .3);
+            border-left: 5px solid var(--clr-ok); border-radius: 8px; padding: 1rem 1.25rem;
+        }
+
+        .erp-page-title {
+            display: flex; align-items: center; gap: 1rem;
+            margin-bottom: 1.5rem; padding-bottom: .75rem;
+            border-bottom: 2px solid var(--clr-border);
+        }
+        .erp-page-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem; color: var(--clr-navy); margin: 0;
+        }
+        [data-theme="dark"] .erp-page-title h2 { color: var(--clr-royal); }
+
+        code, .mono {
+            font-family: 'JetBrains Mono', Consolas, monospace;
+            font-size: .85em; color: var(--clr-royal);
+            background: var(--clr-ice); padding: .15em .4em; border-radius: 4px;
+        }
+        [data-theme="dark"] code,
+        [data-theme="dark"] .mono {
+            color: var(--clr-royal); background: rgba(233, 30, 99, .1);
+        }
+
+        /* TEXTO BICOLOR */
+        .text-mitsuri {
+            color: #8BC34A;
+            font-weight: 700;
+            -webkit-text-stroke: 0.3px rgba(0,0,0,0.15);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+        }
+
+        .text-shinobu {
+            color: #1A1A1A;
+            font-weight: 700;
+            -webkit-text-stroke: 0.3px rgba(255,255,255,0.20);
+            text-shadow: 0 1px 2px rgba(255,255,255,0.15);
+        }
+
+        .erp-footer {
+            background: var(--clr-navbar); color: rgba(255,255,255,.85);
+            text-align: center; font-size: .8rem; padding: .85rem;
+            border-top: 3px solid var(--clr-gold); letter-spacing: .02em;
+            transition: background .4s ease, border-color .4s ease;
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<!-- DECORACIÓN ANIMADA -->
+<div class="theme-decor theme-decor--butterflies" id="decorButterflies" aria-hidden="true"></div>
+<div class="theme-decor theme-decor--petals"      id="decorPetals"      aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<nav class="erp-navbar">
+    <a class="erp-brand" href="/">📦 ERP Django <span>· UTEC Celaya</span></a>
+    <div class="erp-nav-links">
+        <a href="{% url 'productos:lista' %}" class="erp-nav-link {% block nav_productos %}{% endblock %}">Productos</a>
+        <a href="{% url 'clientes:lista' %}" class="erp-nav-link {% block nav_clientes %}{% endblock %}">Clientes</a>
+        <a href="{% url 'proveedores:lista' %}" class="erp-nav-link {% block nav_proveedores %}{% endblock %}">Proveedores</a>
+        <a href="{% url 'ventas:lista' %}" class="erp-nav-link {% block nav_ventas %}{% endblock %}">Ventas</a>
+        <a href="{% url 'reportes:inicio' %}" class="erp-nav-link {% block nav_reportes %}{% endblock %}">Reportes</a>
+        
+        <a href="/admin/" class="erp-nav-link" style="background: transparent; box-shadow: none; color: #FFF !important; opacity: 0.8;">Admin</a>
+        {% if user.is_authenticated %}
+            <a href="/accounts/logout/" class="erp-nav-link" style="background: transparent; box-shadow: none; color: #FFF !important; opacity: 0.8;">Salir ({{ user.username }})</a>
+        {% else %}
+            <a href="/accounts/login/" class="erp-nav-link" style="background: transparent; box-shadow: none; color: #FFF !important; opacity: 0.8;">Entrar</a>
+        {% endif %}
+        
+        <button class="theme-toggle" id="themeBtn" title="Shinobu · modo luz">🦋</button>
+    </div>
+</nav>
+
+{% if messages %}
+<div class="container mt-3" style="position: relative; z-index: 20;">
+    {% for m in messages %}
+    <div class="erp-alert-{% if m.tags == 'error' %}danger{% elif m.tags == 'success' %}success{% else %}info{% endif %} d-flex justify-content-between align-items-center mb-2" role="alert">
+        <span>{{ m }}</span>
+        <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:inherit;opacity:.7;">×</button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<main class="erp-main">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+<footer class="erp-footer">
+    ERP Django · Django 4.2 LTS · Fable 5 · UTEC Celaya · Espiral 1
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+(function () {
+    'use strict';
+
+    var btn  = document.getElementById('themeBtn');
+    var html = document.documentElement;
+
+    var icons  = { light: '🦋', dark: '🎀' };
+    var titles = {
+        light: 'Shinobu · modo mariposa',
+        dark : 'Mitsuri · modo amor'
+    };
+
+    var saved = localStorage.getItem('erpTheme') || 'light';
+    html.setAttribute('data-theme', saved);
+
+    function render(theme) {
+        if (!btn) return;
+        btn.textContent = icons[theme];
+        btn.title       = titles[theme];
+        btn.setAttribute('aria-label', titles[theme]);
+    }
+    render(saved);
+
+    if (btn) {
+        btn.addEventListener('click', function () {
+            var current = html.getAttribute('data-theme');
+            var next    = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            render(next);
+            localStorage.setItem('erpTheme', next);
+        });
+    }
+
+    var butterflies = document.getElementById('decorButterflies');
+    var petals      = document.getElementById('decorPetals');
+
+    function spawnParticles(container, emoji, typeClass, count, motionMin, motionMax) {
+        if (!container) return 0;
+        var frag = document.createDocumentFragment();
+
+        for (var i = 0; i < count; i++) {
+            var outer = document.createElement('span');
+            outer.className = 'decor-particle ' + typeClass;
+
+            var inner = document.createElement('span');
+            inner.textContent = emoji;
+
+            var size     = 18 + Math.random() * 16;
+            var left     = Math.random() * 100;
+            var dur      = 14 + Math.random() * 12;
+            var delay    = -Math.random() * dur;
+            var motion   = motionMin + Math.random() * (motionMax - motionMin);
+            var opacity  = 0.65 + Math.random() * 0.35;
+
+            outer.style.left              = left + 'vw';
+            outer.style.fontSize          = size + 'px';
+            outer.style.animationDuration = dur + 's';
+            outer.style.animationDelay    = delay + 's';
+            outer.style.opacity           = opacity;
+            inner.style.animationDuration = motion + 's';
+
+            outer.appendChild(inner);
+            frag.appendChild(outer);
+        }
+        container.appendChild(frag);
+        return count;
+    }
+
+    setTimeout(function () {
+        // 🦋 Shinobu: 22 mariposas + 18 glicinas = 40 partículas
+        spawnParticles(butterflies, '🦋', 'particle-butterfly', 22, 4, 7);
+        spawnParticles(butterflies, '🪻', 'particle-wisteria',   18, 6, 9);
+
+        // 🎀 Mitsuri: 24 pétalos + 18 corazones = 42 partículas
+        spawnParticles(petals,      '🌸', 'particle-petal',     24, 5, 9);
+        spawnParticles(petals,      '💗', 'particle-heart',     18, 4, 7);
+    }, 100);
+
+})();
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
