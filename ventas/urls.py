@@ -6,6 +6,7 @@ from . import views
 app_name = 'ventas'
 
 urlpatterns = [
+    path('<int:venta_id>/pdf/', views.venta_pdf, name='pdf'),
     path('',
          views.VentaListView.as_view(),
          name='lista'),
