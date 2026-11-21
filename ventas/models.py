@@ -226,3 +226,10 @@ class Pedido(models.Model):
                     'a la fecha del pedido.'
                 )
             })
+class EjecucionTarea(models.Model):
+    """Registra qué tareas programadas ya corrieron y en qué fecha."""
+    nombre = models.CharField(max_length=50)
+    fecha  = models.DateField()
+
+    class Meta:
+        unique_together = ('nombre', 'fecha')

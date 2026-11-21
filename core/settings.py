@@ -430,3 +430,5 @@ CELERY_BEAT_SCHEDULE = {
 }
 # Token que protege las direcciones /tareas/... (vacío = deshabilitadas)
 TAREAS_TOKEN = env('TAREAS_TOKEN', default='')
+# Hora local (México) a partir de la cual se envía el reporte diario
+REPORTE_HORA = env('REPORTE_HORA', default='08:00')
