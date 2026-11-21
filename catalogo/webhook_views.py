@@ -26,6 +26,10 @@ from ventas.models    import Pedido
 # catalogo/webhook_views.py — agregar import al inicio:
 from ventas.tasks import enviar_confirmacion_pedido
 
+from django.db import transaction
+from ventas.tasks import alertar_stock_tras_venta
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -214,3 +218,4 @@ def _descontar_stock(pedido: 'Pedido') -> None:
                 f'Producto {producto_id}: stock insuficiente para '
                 f'decrementar {cantidad} unidades.'
             )
+        transaction.on_commit(alertar_stock_tras_venta)

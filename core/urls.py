@@ -36,5 +36,7 @@ urlpatterns = [
     path('ventas/',      include('ventas.urls',       namespace='ventas')),
     path('reportes/',    include('reportes.urls',     namespace='reportes')),
     # E-commerce público — W13
-    path('catalogo/', include('catalogo.urls', namespace='catalogo'))
+    path('catalogo/', include('catalogo.urls', namespace='catalogo')),
+    path('tareas/', include('ventas.urls_tareas')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from datetime import timedelta
+from celery.schedules import crontab
 import environ
 from pathlib import Path
 
@@ -400,3 +401,32 @@ CELERY_TASK_EAGER_PROPAGATES = CELERY_TASK_ALWAYS_EAGER
 ANYMAIL = {
     'SENDGRID_API_KEY': env('SENDGRID_API_KEY', default=''),
 }
+# core/settings.py — tareas programadas (W18)
+
+# Destinatarios del reporte diario (los mismos del administrador)
+REPORTE_VENTAS_DESTINATARIOS = ALERTA_STOCK_DESTINATARIOS
+
+# Zona horaria que usa Celery para interpretar crontab
+# (la guía original usaba CELERY_BEAT_TIMEZONE, que NO existe en Celery)
+CELERY_TIMEZONE = TIME_ZONE   # 'America/Mexico_City'
+
+CELERY_BEAT_SCHEDULE = {
+
+    # Verificar stock bajo cada hora
+    'verificar-stock-bajo-cada-hora': {
+        'task':     'ventas.verificar_stock_bajo',
+        'schedule': timedelta(hours=1),
+        'args':     (5,),   # umbral = 5 unidades
+        'options':  {'queue': 'erp_django'},
+    },
+
+    # Reporte de ventas a las 8:00 AM (hora de México); reporta AYER
+    'reporte-ventas-diario-8am': {
+        'task':     'ventas.reporte_ventas_diario',
+        'schedule': crontab(hour=8, minute=0),
+        'options':  {'queue': 'erp_django'},
+    },
+
+}
+# Token que protege las direcciones /tareas/... (vacío = deshabilitadas)
+TAREAS_TOKEN = env('TAREAS_TOKEN', default='')
