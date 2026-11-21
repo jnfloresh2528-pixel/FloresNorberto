@@ -2,15 +2,16 @@ name: Tareas programadas ERP
 
 on:
   schedule:
-    - cron: '0 14 * * *'   # 14:00 UTC = 8:00 AM Ciudad de México → reporte
-    - cron: '5 14 * * *'   # 14:05 UTC = 8:05 AM Ciudad de México → stock
-  workflow_dispatch:        # permite ejecutarlo a mano desde GitHub
+    - cron: '*/30 * * * *'   # cada 30 min → la app decide si ya toca el reporte
+    - cron: '5 14 * * *'     # 14:05 UTC = 8:05 AM Ciudad de México → stock
+  workflow_dispatch:
     inputs:
       tarea:
         description: 'Tarea a ejecutar'
         type: choice
         options:
           - reporte
+          - reporte-programado
           - stock
 
 jobs:
@@ -21,7 +22,7 @@ jobs:
         env:
           RENDER_URL:   ${{ secrets.RENDER_URL }}
           TAREAS_TOKEN: ${{ secrets.TAREAS_TOKEN }}
-          TAREA: ${{ github.event.inputs.tarea || (github.event.schedule == '0 14 * * *' && 'reporte' || 'stock') }}
+          TAREA: ${{ github.event.inputs.tarea || (github.event.schedule == '5 14 * * *' && 'stock' || 'reporte-programado') }}
         run: |
           curl --fail-with-body --silent --show-error \
                --max-time 180 --retry 2 --retry-delay 20 \
