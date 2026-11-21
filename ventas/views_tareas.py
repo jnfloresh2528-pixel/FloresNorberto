@@ -27,7 +27,9 @@ logger = logging.getLogger(__name__)
 
 
 def _tarea_reporte() -> dict:
-    r = reporte_ventas_diario.apply().get()
+    r = reporte_ventas_diario.apply(
+        kwargs={'dias_atras': settings.REPORTE_DIAS_ATRAS}
+    ).get()
     return {'correo_enviado': r['correo_enviado']}
 
 
